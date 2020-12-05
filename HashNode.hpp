@@ -29,6 +29,7 @@ class hashNode {
 	int currSize;  // the current number of values in the values array - when it gets full, we'll
 					// have to make a new, larger sized values array and copy over all the old values.
 public:
+
 	hashNode();
 	hashNode(string s);
 	hashNode(string s, string v);

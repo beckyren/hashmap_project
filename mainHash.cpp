@@ -20,4 +20,5 @@ int main() {
 	makeSeuss n("DrSeuss.txt","Seussout2.txt",true,false);
 	makeSeuss v("GEChap1a.txt","GEChap1out2.txt",false,false);
 	return 0;
+
 }
