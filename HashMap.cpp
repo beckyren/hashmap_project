@@ -15,10 +15,20 @@ using namespace std;
 hashMap::hashMap(bool hash1, bool coll1) {
 	hashfn = hash1;
 	collfn = coll1;
-	map = new hashNode*(NULL);
+	map = NULL;
+	numKeys = 0;
+	mapSize = 100;
+	first = "";
+	collisions = 0;
+	hashcoll = 0;
+	map = new hashNode*[mapSize];
+	for(int i =0;i<mapSize;i++){
+		map[i] = NULL;
+	}
 }
 
 void hashMap::addKeyValue(string k, string v) {
+
 }
 int hashMap::getIndex(string k) {
 }
