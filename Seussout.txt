@@ -1,2 +1,2 @@
-Collisions using hash 1: -52.726, and collision handling 1: -61.5123
+Collisions using hash 1: -24.4803, and collision handling 1: -28.5597
 

@@ -39,7 +39,7 @@ hashNode::hashNode(string s, string v){
 }
 
 void hashNode::addValue(string v) {
-	values[currSize] = v;
+	values[currSize-1] = v;
 	currSize++;
 }
 void hashNode::dblArray() {
@@ -57,7 +57,15 @@ void hashNode::dblArray() {
 
 }
 
-
+void hashNode:: printArray(){
+	if(currSize>0){
+		for(int i = 0; i<currSize;i++){
+			cout<<"The values are"<<values[i]<<endl;
+		}
+	}
+	else
+		cout<<"nope"<<endl;
+}
 string hashNode::getRandValue() {
 	//Every key has a values array - an array of words that 
 	// follow that key in the text document.  You're going to 

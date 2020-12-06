@@ -33,6 +33,7 @@ public:
 	hashNode();
 	hashNode(string s);
 	hashNode(string s, string v);
+	void printArray();
 	void addValue(string v); //adds a word to the list of words (teh values array) that follow the keyword
 	void dblArray();  // if the values array is full, makes a new array twice the size of the current
 					//array and then copies over all the old values.  No hashing involved.  Just plain copying.

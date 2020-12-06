@@ -14,11 +14,16 @@
 using namespace std;
 int main() {
 	srand(time(NULL));
+
+	hashNode* me = new hashNode("bleh","bleh2");
+	me->printArray();
+	cout<<("Printed array")<<endl;
 	makeSeuss k("DrSeuss.txt","Seussout.txt",true,true);
 	makeSeuss m("GEChap1a.txt","GEChap1out.txt",false,true);
-
 	makeSeuss n("DrSeuss.txt","Seussout2.txt",true,false);
 	makeSeuss v("GEChap1a.txt","GEChap1out2.txt",false,false);
+
+
 	return 0;
 
 }

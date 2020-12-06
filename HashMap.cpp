@@ -13,7 +13,11 @@
 using namespace std;
 
 hashMap::hashMap(bool hash1, bool coll1) {
+	hashfn = hash1;
+	collfn = coll1;
+	map = new hashNode*(NULL);
 }
+
 void hashMap::addKeyValue(string k, string v) {
 }
 int hashMap::getIndex(string k) {
