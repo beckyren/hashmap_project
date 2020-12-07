@@ -10,6 +10,7 @@
 #include "hashNode.hpp"
 #include <iostream>
 #include <math.h>
+#include <string>
 using namespace std;
 
 hashMap::hashMap(bool hash1, bool coll1) {
@@ -28,6 +29,42 @@ hashMap::hashMap(bool hash1, bool coll1) {
 }
 
 void hashMap::addKeyValue(string k, string v) {
+if(hashfn){
+	int i = calcHash1(k);
+	//insert the node at the null index
+	if(map[i]==NULL){
+		map[i] = new hashNode(k,v);
+		numKeys++;//update number of keys??
+	}
+	//same keyword, add to the values array
+	else if(map[i]!=NULL&&map[i]->keyword==k)
+		map[i]->addValue(v);
+
+	//collision detected, recalculate index
+	else if(map[i]!=NULL&&map[i]->keyword!=k){
+		int sum =0;
+		//calculate h for collision function
+		for(int i = 0;i<k.length();i++){
+			sum+=(int)k[i];
+		}
+		//keep track of insertions for collision function
+		int insertion_attempts = 0;
+
+		while(map[i]!=NULL&&map[i]->keyword!=k){
+			if(collfn){
+				i = coll1(sum, insertion_attempts, k);
+			}
+			else{
+				i = coll1(sum, insertion_attempts, k);
+			}
+			insertion_attempts++;
+		}
+	}
+}
+	//calculate load factor
+	double load_factor = (double)numKeys/(double)mapSize;
+	if(load_factor>0.7)
+		reHash();
 
 }
 int hashMap::getIndex(string k) {

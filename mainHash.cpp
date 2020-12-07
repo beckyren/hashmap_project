@@ -18,6 +18,10 @@ int main() {
 	hashNode* me = new hashNode("bleh","bleh2");
 	me->printArray();
 	cout<<("Printed array")<<endl;
+	//testing conversion to ascii
+	//string me2 = "Hello";
+	//cout<<(int)me2[0]<<endl;
+	hashMap* me3 = new hashMap(true,true);
 	makeSeuss k("DrSeuss.txt","Seussout.txt",true,true);
 	makeSeuss m("GEChap1a.txt","GEChap1out.txt",false,true);
 	makeSeuss n("DrSeuss.txt","Seussout2.txt",true,false);
