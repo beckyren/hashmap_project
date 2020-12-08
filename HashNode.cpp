@@ -36,11 +36,14 @@ hashNode::hashNode(string s, string v){
 	values[0] = v;
 	valuesSize = 100;
 	currSize = 1;
+	cout<<"Current size is:"<<currSize<<endl;
 }
 
 void hashNode::addValue(string v) {
-	values[currSize-1] = v;
+	values[currSize] = v;
 	currSize++;
+	cout<<"added value, currsize is:"<<currSize<<endl;
+
 }
 void hashNode::dblArray() {
 	// when the value array gets full, you need to make a new 
@@ -54,12 +57,15 @@ void hashNode::dblArray() {
 		newArray[i] = values[i];
 	}
 	delete[]values;
+	values = newArray;//
+	//
+	valuesSize*=2;
 
 }
 
 void hashNode:: printArray(){
-	if(currSize>0){
-		for(int i = 0; i<currSize;i++){
+	if(valuesSize>0){
+		for(int i = 0; i<valuesSize;i++){
 			cout<<"The values are"<<values[i]<<endl;
 		}
 	}
