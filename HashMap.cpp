@@ -43,11 +43,14 @@ if(hashfn){
 
 	//collision detected, recalculate index
 	else if(map[i]!=NULL&&map[i]->keyword!=k){
+		hashcoll++;
 		int sum =0;
 		//calculate h for collision function
-		for(int i = 0;i<k.length();i++){
-			sum+=(int)k[i];
-		}
+		if(hashfn)
+			sum = calcHash1(k);
+		else
+			sum = calcHash2(k);
+
 		//keep track of insertions for collision function
 		int insertion_attempts = 0;
 
@@ -129,21 +132,20 @@ int hashMap::calcHash1(string k){
 }
 void hashMap::getClosestPrime() {
 	int dbl = mapSize*2;
-
-	bool notprime= true;
-	while(notprime){
-		int count = 0;
-	for(int j =2; j< dbl-1;j++){
-		if(dbl%j==0)
-			count++;//keep track of numbers it is divisible by
-	}
-	if(count==0)
-		notprime = false;
-	else
-		dbl++;
-	}
-	mapSize = dbl;
-	cout<<"The calculated closest prime is "<<dbl<<endl;
+		bool notprime= true;
+		while(notprime){
+			int count = 0;
+		for(int j =2; j< dbl-1;j++){
+			if(dbl%j==0)
+				count++;//keep track of numbers it is divisible by
+		}
+		if(count==0)
+			notprime = false;
+		else
+			dbl++;
+		}
+		mapSize = dbl;//
+		cout<<"The calculated closest prime is "<<dbl<<endl;
 
 }
 void hashMap::reHash() {
@@ -162,17 +164,23 @@ void hashMap::reHash() {
 	delete[]map;
 	map = map2;
 
-
-
 //
-}
-int hashMap::coll1(int h, int i, string k) {
-	//to be modified
-
+}//
+int hashMap::coll1(int h, int i, string k) {//
+	int tmp = i;
+	int index;
+	//cout<<"The h value is"<<h<<" and the i value is "<<i<<endl;
+	cout<<"Collision1 method calculated"<<(h+(i*i))%mapSize<<endl;
+	while(map[(h+(tmp*tmp))%mapSize]!=NULL){
+			tmp++;
+		}
+	index = (h+(tmp*tmp))%mapSize;
+	cout<<"index value is "<<index<<endl;
+	return index;
 }
 int hashMap::coll2(int h, int i, string k) {
 	//to be modified
-	return 20;
+
 }
 int hashMap::findKey(string k) {
 //NOTE: THIS METHOD CANNOT LOOP from index 0 to end of hash array looking for the key.  That destroys any efficiency in run-time. 

@@ -21,11 +21,12 @@ int main() {
 	//me->addValue("Becky");
 	//me->printArray();
 	//cout<<"currSize is :"<<me->getRandValue()<<endl;
-	for(int i =0;i<80;i++){
+	/*for(int i =0;i<80;i++){
 		me->addValue("Becky");
 	}
 	me->dblArray();
 	me->printArray();
+	*/
 
 	//testing conversion to ascii
 	//string me2 = "Hello";
@@ -33,11 +34,16 @@ int main() {
 	hashMap* me3 = new hashMap(true,true);
 	//testing addkey value
 	me3->addKeyValue("A_key", "A_value");
+	me3->addKeyValue("A_kez", "A_value");
 	me3->addKeyValue("Another_key","Another_value");
+
 	//me3->printMap();
-	me3->calcHash1("idiot");
+	me3->calcHash1("A_key");
+	me3->calcHash1("A_kez");
 	me3->calcHash2("dfgfgg");
-	me3->getClosestPrime();
+	//me3->reHash();
+	me3->coll1(89, 1, "Sweets");//does not work
+	me3->printMap();
 	//makeSeuss k("DrSeuss.txt","Seussout.txt",true,true);
 	//makeSeuss m("GEChap1a.txt","GEChap1out.txt",false,true);
 	//makeSeuss n("DrSeuss.txt","Seussout2.txt",true,false);
