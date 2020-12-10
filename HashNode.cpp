@@ -36,13 +36,10 @@ hashNode::hashNode(string s, string v){
 	values[0] = v;
 	valuesSize = 100;
 	currSize = 1;
-	cout<<"Current size is:"<<currSize<<endl;
 }
-
 void hashNode::addValue(string v) {
 	values[currSize] = v;
 	currSize++;
-	cout<<"added value, currsize is:"<<currSize<<endl;
 
 }
 void hashNode::dblArray() {

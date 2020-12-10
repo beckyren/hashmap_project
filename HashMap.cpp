@@ -29,13 +29,11 @@ hashMap::hashMap(bool hash1, bool coll1) {
 }
 
 void hashMap::addKeyValue(string k, string v) {
-if(hashfn){
 	int i = getIndex(k);
 	//insert the node at the null index
 	if(map[i]==NULL){
 		map[i] = new hashNode(k,v);
-		cout<<"Successfully found an empty node. 1 attempt"<<endl;
-		numKeys++;//update number of keys??
+		numKeys++;
 	}
 	//same keyword, add to the values array
 	else if(map[i]!=NULL&&map[i]->keyword==k)
@@ -43,34 +41,20 @@ if(hashfn){
 
 	//collision detected, recalculate index
 	else if(map[i]!=NULL&&map[i]->keyword!=k){
-		hashcoll++;
-		int sum =0;
-		//calculate h for collision function
-		if(hashfn)
-			sum = calcHash1(k);
-		else
-			sum = calcHash2(k);
-
-		//keep track of insertions for collision function
-		int insertion_attempts = 0;
-
+		collisions++;
 		while(map[i]!=NULL&&map[i]->keyword!=k){
-			cout<<"Collision detected"<<endl;
 			if(collfn){
-				cout<<"Using first coll method"<<endl;
-				i = coll1(sum, insertion_attempts, k);
-				cout<<i<<endl;
+				i = coll1(i, collisions, k);
 			}
 			else{
-				i = coll2(sum, insertion_attempts, k);
+				i = coll2(i, collisions, k);
 			}
-			map[i] = new hashNode(k,v);
-			insertion_attempts++;
-			if(insertion_attempts>3)
-				cout<<"While loop ma dude"<<endl;
+			collisions++;
 		}
+			map[i] = new hashNode(k,v);
+			numKeys++;
 	}
-}
+
 	//calculate load factor
 	double load_factor = (double)numKeys/(double)mapSize;
 	if(load_factor>0.7)
@@ -83,18 +67,19 @@ int hashMap::getIndex(string k) {
 	// the keyword k should be inserted into the map
 	// array
 	double load_factor = (double)numKeys/(double)mapSize;
-	if(load_factor>0.7)
-		reHash();
+	//if(load_factor>0.7)
+		//reHash();
 	int index;
 	if(hashfn)
-		index = calcHash1(k);
-	else if(!hashfn)
+		index = calcHash1(k);//
+	else
 		index = calcHash2(k);
 	return index;
 }
 
+//each ascii value is raised to a power that is increasing from left to right
+//the values are then added together and modded by the map size
 int hashMap::calcHash2(string k){
-	int exponent = 1;
 	int sum = 0;
 	int ascii = 0;
 	int count =0;
@@ -115,20 +100,16 @@ int hashMap::calcHash2(string k){
 		count--;
 	}
 	//convert to int then mod going backwards
-	cout<<"The sum calculated from hash2 is "<<sum<<endl;
-	cout<<"The value returned is "<<sum%mapSize<<endl;
 	return (int)sum%mapSize;
 }
+
+//adds up ascii numbers corresponding to the key then mods by mapsize
 int hashMap::calcHash1(string k){
 	int sum = 0;
-		int index;
 		for(int i = 0;i<k.length();i++){
 			sum+=(int)k[i];
-			cout<<"Sum is "<<sum<<endl;
 		}
-		index = sum%mapSize;
-		cout<<"calcHash gave "<<index<<endl;
-		return index;
+		return sum%mapSize;
 }
 void hashMap::getClosestPrime() {
 	int dbl = mapSize*2;
@@ -144,8 +125,8 @@ void hashMap::getClosestPrime() {
 		else
 			dbl++;
 		}
+
 		mapSize = dbl;//
-		cout<<"The calculated closest prime is "<<dbl<<endl;
 
 }
 void hashMap::reHash() {
@@ -166,25 +147,47 @@ void hashMap::reHash() {
 
 //
 }//
+//First collision method: Quadratic probing
 int hashMap::coll1(int h, int i, string k) {//
 	int tmp = i;
 	int index;
+	int size = 0;//copy mapsize value
 	//cout<<"The h value is"<<h<<" and the i value is "<<i<<endl;
-	cout<<"Collision1 method calculated"<<(h+(i*i))%mapSize<<endl;
-	while(map[(h+(tmp*tmp))%mapSize]!=NULL){
+	while(map[(h+(tmp*tmp))%mapSize]!=NULL&&size<mapSize){
 			tmp++;
+			size++;
 		}
 	index = (h+(tmp*tmp))%mapSize;
-	cout<<"index value is "<<index<<endl;
 	return index;
 }
+//Second collision method: Double hashing
 int hashMap::coll2(int h, int i, string k) {
-	//to be modified
+	int first_sum = calcHash1(k);
+	int second_sum = calcHash2(k);
+	int index = (first_sum + i*second_sum)%mapSize;
+	return index;
 
 }
 int hashMap::findKey(string k) {
 //NOTE: THIS METHOD CANNOT LOOP from index 0 to end of hash array looking for the key.  That destroys any efficiency in run-time. 
+	int index = 0;
+	if(hashfn)
+		index = calcHash1(k);
+	else
+		index = calcHash2(k);
+	while(map[index]->keyword!=k){
+		if(map[index]==NULL)
+					return -1;
+		if(collfn)
+			index = coll1(calcHash1(k),collisions,k);
+		else if(!collfn)
+			index = coll2(calcHash2(k),collisions,k);
+	}
+	cout<<"Key found at "<<index<<endl;
+	cout<<map[index]->keyword<<endl;
+	return index;
 }
+
 
 
 void hashMap::printMap() {
